@@ -1,11 +1,11 @@
 import { Router }from 'https://deno.land/x/oak/mod.ts'
-import { getBooks, getBook, addBook, updateBook, deleteBook } from './controller.ts'
+import { getUsers, getUser, addUser, updateUser, deleteUser } from './controller.ts'
 
 const router = new Router()
-router.get('/books', getBooks)
-      .get('/books/:isbn', getBook)
-      .post('/books', addBook)
-      .put('/books/:isbn', updateBook)
-      .delete('/books/:isbn', deleteBook)
+router.get('/users', getUsers)
+      .get('/users/:id', getUser)
+      .post('/users', addUser)
+      .put('/users/:id', updateUser)
+      .delete('/users/:id', deleteUser)
 
 export default router

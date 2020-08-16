@@ -1,66 +1,66 @@
-interface IBook {
-    isbn: string;
-    author: string;
-    title: string;
+interface IUser {
+    id: string;
+    name: string;
+    email: string;
   }
   
-  let books: Array<IBook> = [{
-    isbn: "1",
-    author: "Robin Wieruch",
-    title: "The Road to React",
+  let users: Array<IUser> = [{
+    id: "1",
+    name: "Batman",
+    email: "ilikecaves@hotmail.com",
   },{
-    isbn: "2",
-    author: "Kyle Simpson",
-    title: "You Don't Know JS: Scope & Closures",
+    id: "2",
+    name: "Thor",
+    email: "hammers4lyfe@icloud.com",
   },{
-    isbn: "3",
-    author: "Andreas A. Antonopoulos",
-    title: "Mastering Bitcoin",
+    id: "3",
+    name: "The Hulk",
+    email: "smash_things@gmail.com",
   }]
   
-  const searchBookByIsbn = (isbn: string): ( IBook | undefined ) => books.filter(book => book.isbn === isbn )[0]
+  const searchUserById = (id: string): ( IUser | undefined ) => users.filter(user => user.id === id )[0]
 
-  export const getBooks = ({ response }: { response: any }) => { 
-    response.body = books 
+  export const getUsers = ({ response }: { response: any }) => { 
+    response.body = users 
   }
   
-  export const getBook = ({ params, response }: { params: { isbn: string }; response: any }) => {
-    const book: IBook | undefined = searchBookByIsbn(params.isbn)
-    if (book) {
+  export const getUser = ({ params, response }: { params: { id: string }; response: any }) => {
+    const user: IUser | undefined = searchUserById(params.id)
+    if (user) {
       response.status = 200
-      response.body = book
+      response.body = user
     } else {
       response.status = 404
-      response.body = { message: `Book not found.` }
+      response.body = { message: `user not found.` }
     }   
   }
 
-  export const addBook = async ({ request, response }: { request: any; response: any }) => {
+  export const addUser = async ({ request, response }: { request: any; response: any }) => {
     const body = await request.body()
-    const book: IBook = body.value  
-    books.push(book)
+    const user: IUser = body.value  
+    users.push(user)
     response.body = { message: 'OK' }
     response.status = 200
   }
 
 
-  export const updateBook = async ({ params, request, response }: { params: { isbn: string }; request: any; response: any }) => {
-    let book: IBook | undefined = searchBookByIsbn(params.isbn)
-    if (book) {
+  export const updateUser = async ({ params, request, response }: { params: { id: string }; request: any; response: any }) => {
+    let user: IUser | undefined = searchUserById(params.id)
+    if (user) {
       const body = await request.body()
-      const updateInfos: { author?: string; title?: string } = body.value
-      book = { ...book, ...updateInfos}
-      books = [...books.filter(book => book.isbn !== params.isbn), book]
+      const updateInfos: { name?: string; email?: string } = body.value
+      user = { ...user, ...updateInfos}
+      users = [...users.filter(user => user.id !== params.id), user]
       response.status = 200
       response.body = { message: 'OK' }
     } else {
       response.status = 404
-      response.body = { message: `Book not found` }
+      response.body = { message: `user not found` }
     }  
   }
   
-  export const deleteBook = ({ params, response }: { params: { isbn: string }; response: any }) => {
-    books = books.filter(book => book.isbn !== params.isbn)
+  export const deleteUser = ({ params, response }: { params: { id: string }; response: any }) => {
+    users = users.filter(user => user.id !== params.id)
     response.body = { message: 'OK' }
     response.status = 200
   }
