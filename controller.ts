@@ -61,6 +61,18 @@ export const deleteUser = ({ params, response }: { params: { id: string }; respo
   response.status = 200
 }
 
+
+export const getPokemon = async({ params, response }: { params: { name: string }; response: any }) => {
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.name}`)
+  const pokemon = await res.json()
+  if(pokemon){
+    response.status = 200
+    response.body = {pokemon}
+  }else{
+    response.status = 404
+    response.body = {message: "No pokemon found"}
+  }
+}
   
   
   
